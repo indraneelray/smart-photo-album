@@ -1,78 +1,36 @@
-# Prerequisites
-For the JavaScript SDK to work your APIs need to support CORS. The Amazon API Gateway developer guide explains how to [setup CORS for an endpoint]().
-The generated SDK depends on third-party libraries. Include all of the scripts in your webpage
+## Amazon Transcribe Websocket Static
 
-    <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
-    <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
-    <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
-    <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
-    <script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
-    <script type="text/javascript" src="lib/url-template/url-template.js"></script>
-    <script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
-    <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
-    <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
-    <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
-    <script type="text/javascript" src="apigClient.js"></script>
+[Try it out](https://transcribe-websockets.go-aws.com/)
 
-# Use the SDK in your project
+A static site demonstrating real-time audio transcription via Amazon Transcribe over a WebSocket.
 
-To initialize the most basic form of the SDK:
+This demo app uses browser microphone input and client-side JavaScript to demonstrate the real-time streaming audio transcription capability of [Amazon Transcribe](https://aws.amazon.com/transcribe/) using WebSockets.
 
-```
-var apigClient = apigClientFactory.newClient();
-```
+Check out the [Amazon Transcribe WebSocket docs](https://docs.aws.amazon.com/transcribe/latest/dg/websocket.html).
 
-Calls to an API take the form outlined below. Each API call returns a promise, that invokes either a success and failure callback
+## Building and Deploying
+
+[![amplifybutton](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/amazon-transcribe-websocket-static)
+
+Even though this is a static site consisting only of HTML, CSS, and client-side JavaScript, there is a build step required. Some of the modules used were originally made for server-side code and do not work natively in the browser.
+
+We use [browserify](https://github.com/browserify/browserify) to enable browser support for the JavaScript modules we `require()`.
+
+1. Clone the repo
+2. run `npm install`
+3. run `npm run-script build` to generate `dist/main.js`.
+
+Once you've bundled the JavaScript, all you need is a webserver. For example, from your project directory: 
 
 ```
-var params = {
-    //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
-    param0: '',
-    param1: ''
-};
-var body = {
-    //This is where you define the body of the request
-};
-var additionalParams = {
-    //If there are any unmodeled query parameters or headers that need to be sent with the request you can add them here
-    headers: {
-        param0: '',
-        param1: ''
-    },
-    queryParams: {
-        param0: '',
-        param1: ''
-    }
-};
-
-apigClient.methodName(params, body, additionalParams)
-    .then(function(result){
-        //This is where you would put a success callback
-    }).catch( function(result){
-        //This is where you would put an error callback
-    });
+npm install --global local-web-server
+ws
 ```
 
-#Using AWS IAM for authorization
-To initialize the SDK with AWS Credentials use the code below. Note, if you use credentials all requests to the API will be signed. This means you will have to set the appropiate CORS accept-* headers for each request.
+### Credits
 
-```
-var apigClient = apigClientFactory.newClient({
-    accessKey: 'ACCESS_KEY',
-    secretKey: 'SECRET_KEY',
-    sessionToken: 'SESSION_TOKEN', //OPTIONAL: If you are using temporary credentials you must include the session token
-    region: 'eu-west-1' // OPTIONAL: The region where the API is deployed, by default this parameter is set to us-east-1
-});
-```
+This project is based on code written by Karan Grover from the Amazon Transcribe team, who did the hard work (audio encoding, event stream marshalling).
 
-#Using API Keys
-To use an API Key with the client SDK you can pass the key as a parameter to the Factory object. Note, if you use an apiKey it will be attached as the header 'x-api-key' to all requests to the API will be signed. This means you will have to set the appropiate CORS accept-* headers for each request.
+## License
 
-```
-var apigClient = apigClientFactory.newClient({
-    apiKey: 'API_KEY'
-});
-```
-
-
-
+This library is licensed under the Apache 2.0 License. 

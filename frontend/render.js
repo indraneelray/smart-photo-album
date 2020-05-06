@@ -5,7 +5,7 @@ function searchPhoto()
 
   var apigClient = apigClientFactory.newClient();
 
-    var user_message = document.getElementById('note-textarea').value;
+    var user_message = document.getElementById('transcript').value;
 
     var body = { };
     var params = {q : user_message};

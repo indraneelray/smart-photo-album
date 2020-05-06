@@ -1,15 +1,17 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Photo Album</title>
-    <meta name="description" content="">
+    <title>Amazon Transcribe WebSocket API - Sample Application</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">
-    <link rel="stylesheet" href="style1.css">
     <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
     <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
     <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
@@ -21,62 +23,65 @@
     <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
     <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
     <script type="text/javascript" src="apigClient.js"></script>
-
-
 </head>
+
 <body>
-<div class="container">
-
-    <div class="app">
-        <div class="heading">
-            <h1>Smart Photo Album</h1>
+    <div class="container">
+        <div class="jumbotron">
+        <div class="col">
+            <h1 class="text-center mt-5">Smart Photo Album</h1>
         </div>
-<div>
-    <h3 style="margin-top:30px;text-align:center">Search a photo</h3>
-</div>
-        <div class="input-group">
-            <input id="note-textarea" type="text" class="form-control" placeholder="Search for a photo" name="search">
+        <div id="error" class="isa_error"></div>
+        <!-- <input id="transcript" placeholder="Press Start and speak into your mic" rows="5"
+            readonly="readonly"></input> -->
+            
+           
+              <div class="row">
+                <div class="col-md-8 offset-md-2">
+                  <div class="input-group">
+                    <input id="transcript" type="text" class="form-control" placeholder="Press Start and speak into your mic" id="txtSearch"/>
+                    <div class="input-group-btn">
+                      <button class="btn btn-primary" type="submit" onclick="searchPhoto()">
+                        <span class="glyphicon glyphicon-search">Search</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
 
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" onclick="searchPhoto()"><i class="fa fa-search"></i></button>
+        <div class="row">
+            <div class="col text-center">
+                <button id="start-button" class="button-lg" title="Start Transcription">
+                    <i class="fa fa-microphone"></i> Start
+                </button>
+                <button id="stop-button" class="button-lg" title="Stop Transcription" disabled="true"><i
+                        class="fa fa-stop-circle"></i> Stop
+                </button>
+                <button id="reset-button" class="button-lg button-secondary" title="Clear Transcript"> 
+                    Clear Transcript
+                </button>
             </div>
         </div>
-     <button id="start-record-btn" title="Start Recording">Start Recording</button>
-     <button id="pause-record-btn" title="Pause Recording">Stop Recording</button>
+        <h3 class="text-center mt-4">OR</h3>
+        <h3 class="text-center">Upload a new photo</h3>
+        <div class="col-md-8 offset-md-2 mt-5 mb-5">
+            <label for="file_path">Upload file</label>
+            <input type="file" class="form-control-file" id="file_path">
+            <button class="btn btn-info mt-2" type="submit" onclick="uploadPhoto()">Search</button>
+        </div>
 
-
-
-
-        <h3 style="margin-top:30px;text-align:center">OR</h3>
-        <h3 style="text-align:center">Upload a new photo</h3>
-
-
-
-
-        <div class="input-group" style="margin-top:30px;">
-            <input type="file" class="form-control upload" name="search" id="file_path">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" onclick="uploadPhoto()">Upload</button>
+        <div>
+            <div class="banner-section" id="img-container">
+                <p id="displaytext"></p>
             </div>
         </div>
-
     </div>
-    <div>
-
-    </div>
-    <p id="uploadText"></p>
-    <div>
-        <div class="banner-section" id="img-container">
-            <p id="displaytext"></p>
-        </div>
-    </div>
-
 </div>
 
-<script src="script.js"></script>
-<script src="render.js"></script>
-<script src="apigClient.js"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="render.js"></script>
+    <script src="dist/main.js"></script>
 </body>
+
 </html>
